@@ -1,25 +1,24 @@
-import logo from './logo.svg';
-import './App.css';
+import axios from 'axios'
+import React, { useEffect, useState } from 'react'
 
-function App() {
+export default function App() {
+  const API = "https://hp-api.herokuapp.com/api/characters"
+
+  const [harry, setHarry] = useState([])
+  useEffect(() => {
+axios.get(API).then((response) => {
+  console.log(response)
+ setHarry(response.data.slice(0, 25))
+})
+  }, [API])
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div>
+      {harry.map((item) => (
+        <>
+        <h1>{item.name}</h1>
+        <img src={item.image} alt={item.name} />
+        </>
+      ))}
     </div>
-  );
+  )
 }
-
-export default App;
